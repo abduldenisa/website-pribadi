@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MODEL ABDUL</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div>
+        <h1 class="title">MODEL ABDUL</h1>
+        <p class="subtitle">Upload mudah · Kontrol mode File/Kamera · BBox jelas</p>
+        <div id="uiError" class="err"></div>
+      </div>
+      <div class="toolbar">
+        <div class="tabset" role="tablist">
+          <button class="tab active" id="tab-upload" role="tab" aria-selected="true">File</button>
+          <button class="tab" id="tab-camera" role="tab" aria-selected="false">Kamera</button>
+        </div>
+        <button id="btn" class="btn primary"><span id="spin" style="display:none">⏳</span> Deteksi</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="section block">
+          <!-- Upload -->
+          <div id="panel-upload">
+            <div id="dropzone" class="dropzone">
+              <div>
+                <p><b>Tarik & letakkan</b> gambar ke sini</p>
+                <p>atau</p>
+                <button id="pickFile" class="btn">Pilih Gambar</button>
+                <input id="file" type="file" accept="image/*" style="display:none"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Camera -->
+          <div id="panel-camera" style="display:none">
+            <video id="video" playsinline muted></video>
+            <div class="row">
+              <button class="btn" id="startCam">Start</button>
+              <button class="btn ghost" id="flipCam">Flip</button>
+              <button class="btn ghost" id="stopCam">Stop</button>
+            </div>
+            <div class="row">
+              <button class="btn" id="snapDetect">Capture & Deteksi</button>
+              <button class="btn" id="liveToggle">Live: OFF</button>
+            </div>
+          </div>
+
+          <!-- Shared actions -->
+          <div class="row">
+            <button id="download" class="btn">Download PNG</button>
+            <button id="clear" class="btn ghost">Bersihkan</button>
+          </div>
+
+          <!-- Mode-aware controls -->
+          <div id="file-controls">
+            <div class="row">
+              <label>IoU NMS <input id="iou" type="range" min="0" max="1" step="0.01" value="0.45"/></label>
+              <span id="iouVal">0.45</span>
+            </div>
+            <div class="row">
+              <label>Ketebalan BBox <input id="thick" type="range" min="1" max="8" step="1" value="3"/></label>
+              <span id="thickVal">3</span>
+            </div>
+            <div class="row">
+              <label>Filter Kelas <input id="filter" class="input" type="text" placeholder="caries, impacted, periapical lesion"/></label>
+            </div>
+          </div>
+
+          <div id="camera-controls" class="hidden">
+            <div class="row">
+              <label>Confidence <input id="conf" type="range" min="0" max="1" step="0.01" value="0.25"/></label>
+              <span id="confVal">0.25</span>
+            </div>
+            <div class="row">
+              <label>IoU NMS <input id="iou_cam" type="range" min="0" max="1" step="0.01" value="0.45"/></label>
+              <span id="iouCamVal">0.45</span>
+            </div>
+          </div>
+
+          <div class="row" id="modelInfo" style="color:var(--muted);font-size:var(--fs-sm)"></div>
+
+          <div class="row" style="align-items:center">
+            <strong>Dominan:</strong>
+            <span class="pill" id="domIndicator">—</span>
+            <button class="btn ghost" id="autoToggle" style="margin-left:8px">Auto Highlight: ON</button>
+          </div>
+
+          <div class="summary" id="summary"></div>
+          <div class="legend" id="legend"></div>
+          <div class="gallery" id="gallery"></div>
+        </div>
+
+        <div class="footer">
+          <div class="shortcuts">
+            <span>Shortcut:</span>
+            <span><kbd>L</kbd> Label</span>
+            <span><kbd>S</kbd> Score</span>
+            <span><kbd>Scroll</kbd> Zoom · <kbd>Drag</kbd> Pan</span>
+          </div>
+          <span>Model: <code>weights/best.pt</code></span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="canvasWrap">
+          <div class="infobadge" id="fps">FPS: —</div>
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/static/script.js"></script>
+</body>
+</html>
